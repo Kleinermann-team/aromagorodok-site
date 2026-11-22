@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Impressum — Эфирный городок</title>
+<style>
+@font-face{font-family:"Lora";font-weight:600;font-display:swap;
+  src:url(fonts/lora-cyrillic-600-normal.woff2) format("woff2");unicode-range:U+0400-04FF,U+2116}
+@font-face{font-family:"Lora";font-weight:600;font-display:swap;
+  src:url(fonts/lora-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2014,U+00AB,U+00BB}
+:root{--bg:#f6f0f7;--card:#fffaf5;--ink:#3f2a55;--soft:#5f4b70;--line:#e3d6ea;--accent:#7b5aa6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:26px 18px 50px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px 22px}
+h1,h2{font-family:"Lora",Georgia,serif;font-weight:600;line-height:1.25;margin:0}
+h1{font-size:30px;margin-bottom:6px}
+h2{font-size:20px;margin:26px 0 6px}
+p,address{margin:8px 0;color:var(--soft);font-style:normal;overflow-wrap:anywhere}
+ul{margin:8px 0;padding-left:20px;color:var(--soft)}
+a{color:var(--accent)}
+.ru{font-size:15px;border-left:3px solid var(--line);padding-left:12px;margin:12px 0 0}
+.back{display:inline-block;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="index.html" id="back">← Эфирный городок</a>
+<div class="card">
+<h1>Impressum</h1>
+<p class="ru">Юридические сведения о владельце сайта, как требует немецкий закон (§ 5 DDG).</p>
+
+<h2>Angaben gemäß § 5 DDG</h2>
+<address>Katarina Kleinermann<br>Karl-Zeller-Str. 13<br>76684 Östringen<br>Deutschland</address>
+<p>Unabhängige dōTERRA Wellness-Beraterin</p>
+
+<h2>Kontakt</h2>
+<p>E-Mail: <a href="mailto:kat.kleinermann@gmail.com">kat.kleinermann@gmail.com</a><br>Telefon: +49 1525 6010379</p>
+
+<h2>Verantwortlich für den Inhalt</h2>
+<p>Katarina Kleinermann, Anschrift wie oben.</p>
+
+<h2>Hinweis zu dōTERRA</h2>
+<p>Diese Website wird von einer unabhängigen dōTERRA Wellness-Beraterin betrieben. Sie ist keine offizielle Website von dōTERRA. Für den Inhalt ist allein die Betreiberin verantwortlich.</p>
+
+<h2>Verbraucherstreitbeilegung</h2>
+<p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+<h2>Haftung für Links</h2>
+<p>Diese Website enthält Links zu externen Diensten (Telegram). Auf deren Inhalte haben wir keinen Einfluss; für diese Inhalte ist der jeweilige Anbieter verantwortlich.</p>
+</div>
+</div>
+<script>
+(function(){var k="";try{k=sessionStorage.getItem("k")||""}catch(e){}
+ var q=(new URLSearchParams(location.search).get("k")||"").trim();
+ if(/^\d{4,12}$/.test(q))k=q;
+ if(/^\d{4,12}$/.test(k)&&k!=="9721645")document.getElementById("back").href="index.html?k="+k;})();
+</script>
+</body>
+</html>

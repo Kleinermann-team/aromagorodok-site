@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Эфирный городок — крути Колесо удачи</title>
+<meta name="description" content="Уютная игра про эфирные масла. Крути Колесо удачи и забирай первый подарок: рецепт и свою хранительницу.">
+<meta property="og:title" content="Эфирный городок">
+<meta property="og:description" content="Крути Колесо удачи и забирай первый подарок.">
+<meta property="og:image" content="assets/koleso.jpg">
+<meta name="theme-color" content="#f6f0f7">
+<style>
+@font-face{font-family:"Lora";font-weight:600;font-display:swap;
+  src:url(fonts/lora-cyrillic-600-normal.woff2) format("woff2");unicode-range:U+0400-04FF,U+2116}
+@font-face{font-family:"Lora";font-weight:600;font-display:swap;
+  src:url(fonts/lora-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2014,U+00AB,U+00BB}
+:root{--bg:#f6f0f7;--card:#fffaf5;--ink:#3f2a55;--soft:#6f5a80;--line:#e3d6ea;--accent:#7b5aa6;--accent-ink:#fff;--gold:#b98a4a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);
+  background:
+    radial-gradient(60% 34% at 8% 4%, rgba(190,160,214,.30), transparent 70%),
+    radial-gradient(55% 30% at 96% 22%, rgba(244,203,178,.30), transparent 70%),
+    radial-gradient(70% 30% at 12% 62%, rgba(244,203,178,.20), transparent 70%),
+    radial-gradient(60% 30% at 92% 88%, rgba(190,160,214,.28), transparent 70%),
+    var(--bg);
+  font:17px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .36  0 0 0 0 .52  0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,footer{position:relative;z-index:1}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+h1,h2{font-family:"Lora",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:34px}
+h2{font-size:25px}
+p{margin:0}
+.hero{padding:34px 0 8px;text-align:center}
+.brand{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.lead{color:var(--soft);margin-top:12px}
+.wheel{position:relative;margin:22px auto 0;width:100%;max-width:440px;aspect-ratio:1/1;
+  border-radius:28px;overflow:hidden;background:#efe6f2;box-shadow:0 14px 40px rgba(63,42,85,.16)}
+.wheel img,.wheel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.wheel video{opacity:0;transition:opacity .25s}
+.wheel.spinning video,.wheel.done video{opacity:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px;padding:0 30px;
+  border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);
+  font:600 18px/1 inherit;font-family:inherit;text-decoration:none;cursor:pointer;
+  box-shadow:0 8px 22px rgba(123,90,166,.35);transition:transform .15s,box-shadow .15s}
+.btn:active{transform:translateY(1px);box-shadow:0 4px 12px rgba(123,90,166,.3)}
+.btn[disabled]{opacity:.6;cursor:default}
+.cta{margin:22px 0 6px;text-align:center}
+.hint{font-size:14px;color:var(--soft);margin-top:10px;text-align:center}
+.prize{display:none;margin:26px 0 0;padding:26px 20px 28px;background:var(--card);border:1px solid var(--line);
+  border-radius:28px;text-align:center;box-shadow:0 10px 30px rgba(63,42,85,.08)}
+.prize.show{display:block;animation:rise .6s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.prize p{color:var(--soft);margin-top:10px}
+.sep{height:1px;background:var(--line);margin:24px 0}
+.keepers{width:100%;height:auto;border-radius:20px;display:block;margin:16px 0 0}
+.inside{padding:38px 0 10px}
+.inside h2{text-align:center}
+.list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:12px}
+.list li{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px}
+.list b{display:block;font-weight:600;color:var(--ink)}
+.list span{color:var(--soft);font-size:16px}
+footer{padding:30px 0 40px;text-align:center;font-size:14px;color:var(--soft)}
+footer a{color:var(--soft)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.prize.show{animation:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <section class="hero">
+    <div class="brand">Эфирный городок</div>
+    <h1>Крути Колесо удачи и забирай подарок</h1>
+    <p class="lead">Уютная игра про эфирные масла. Каждый день колесо дарит что-то маленькое и приятное: рецепт, ритуал или аромат дня.</p>
+
+    <div class="wheel" id="wheel">
+      <img src="assets/koleso.jpg" alt="Колесо удачи Эфирного городка" width="720" height="720">
+      <video id="spin" src="assets/koleso.mp4" poster="assets/koleso.jpg" preload="auto" muted playsinline></video>
+    </div>
+
+    <div class="cta">
+      <button class="btn" id="go" type="button">Крутить колесо</button>
+    </div>
+    <p class="hint" id="hint">Одно нажатие, и колесо выберет твой подарок</p>
+  </section>
+
+  <section class="prize" id="prize" aria-live="polite">
+    <span class="tag">Тебе выпало</span>
+    <h2>Рецепт из «Ароматной кухни»</h2>
+    <p>Простое блюдо с каплей эфирного масла. Карточка с рецептом ждёт тебя в боте.</p>
+
+    <div class="sep"></div>
+
+    <span class="tag">И ещё подарок</span>
+    <h2>Твоя хранительница</h2>
+    <p>Это твой персонаж в городке. Выберешь, какой она будет, а потом сможешь собирать для неё образы.</p>
+    <img class="keepers" src="assets/hranitelnitsy.jpg" alt="Три хранительницы на выбор" loading="lazy" width="1500" height="625">
+
+    <div class="cta">
+      <a class="btn" id="take" href="https://t.me/EfirnyGorodokBot?start=site_9721645" rel="noopener">Забрать в Телеграме</a>
+    </div>
+    <p class="hint">Откроется бот «Эфирный городок». Подарки придут сразу.</p>
+  </section>
+
+  <section class="inside">
+    <h2>Что внутри городка</h2>
+    <ul class="list">
+      <li><b>Колесо удачи каждый день</b><span>Новый маленький подарок каждое утро.</span></li>
+      <li><b>Свой домик и хранительница</b><span>Всё, что ты собираешь, остаётся с тобой.</span></li>
+      <li><b>Аромакод по дате рождения</b><span>Личная смесь масел, которую можно рассчитать за минуту.</span></li>
+    </ul>
+    <div class="cta">
+      <a class="btn" id="take2" href="https://t.me/EfirnyGorodokBot?start=site_9721645" rel="noopener">Зайти в городок</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Сайт независимого консультанта dōTERRA. Это не официальный сайт компании, за содержание отвечает владелец сайта.</p>
+  <p style="margin-top:8px"><a href="impressum.html" id="imp">Impressum</a> · <a href="datenschutz.html" id="dsg">Datenschutz</a></p>
+</footer>
+
+<script>
+(function () {
+  var BOT = "EfirnyGorodokBot", DEFAULT = "9721645";
+  // Номер куратора: из адреса (?k=123456), иначе из памяти вкладки, иначе руководитель.
+  var k = (new URLSearchParams(location.search).get("k") || "").trim();
+  var store = null;
+  try { store = window.sessionStorage; } catch (e) {}
+  if (!/^\d{4,12}$/.test(k)) {
+    k = "";
+    try { k = (store && store.getItem("k")) || ""; } catch (e) {}
+  }
+  if (!/^\d{4,12}$/.test(k)) k = DEFAULT;
+  try { store && store.setItem("k", k); } catch (e) {}
+
+  var link = "https://t.me/" + BOT + "?start=site_" + k;
+  ["take", "take2"].forEach(function (id) { document.getElementById(id).href = link; });
+  ["imp", "dsg"].forEach(function (id) {
+    var a = document.getElementById(id);
+    if (k !== DEFAULT) a.href += "?k=" + k;
+  });
+
+  var wheel = document.getElementById("wheel"), video = document.getElementById("spin"),
+      go = document.getElementById("go"), hint = document.getElementById("hint"),
+      prize = document.getElementById("prize"), shown = false;
+
+  function reveal() {
+    if (shown) return;
+    shown = true;
+    wheel.classList.remove("spinning");
+    wheel.classList.add("done");
+    go.textContent = "Крутить ещё раз";
+    go.disabled = false;
+    hint.textContent = "Подарок за первое вращение уже твой";
+    prize.classList.add("show");
+    setTimeout(function () {
+      prize.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 250);
+  }
+
+  go.addEventListener("click", function () {
+    go.disabled = true;
+    hint.textContent = "Колесо крутится…";
+    wheel.classList.remove("done");
+    wheel.classList.add("spinning");
+    shown = false;
+    var guard = setTimeout(reveal, 6500);          // если видео не запустилось
+    video.onended = function () { clearTimeout(guard); reveal(); };
+    try {
+      video.currentTime = 0;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { clearTimeout(guard); setTimeout(reveal, 600); });
+    } catch (e) { clearTimeout(guard); reveal(); }
+  });
+})();
+</script>
+</body>
+</html>
