@@ -31,13 +31,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
 main,footer{position:relative;z-index:1}
 .wrap{max-width:560px;margin:0 auto;padding:0 18px}
 h1,h2{font-family:"Lora",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
-h1{font-size:34px}
+h1{font-size:29px}
 h2{font-size:25px}
 p{margin:0}
-.hero{padding:34px 0 8px;text-align:center}
-.brand{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.lead{color:var(--soft);margin-top:12px}
-.wheel{position:relative;margin:22px auto 0;width:100%;max-width:440px;aspect-ratio:1/1;
+.hero{padding:20px 0 8px;text-align:center}
+.brand{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.lead{color:var(--soft);margin-top:6px;font-size:16px;line-height:1.4}
+.wheel{position:relative;margin:14px auto 0;width:min(100%,440px,calc(100vh - 300px));width:min(100%,440px,calc(100svh - 300px));min-width:220px;aspect-ratio:1/1;
   border-radius:28px;overflow:hidden;background:#efe6f2;box-shadow:0 14px 40px rgba(63,42,85,.16)}
 .wheel img,.wheel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .wheel video{opacity:0;transition:opacity .25s}
@@ -48,7 +48,7 @@ p{margin:0}
   box-shadow:0 8px 22px rgba(123,90,166,.35);transition:transform .15s,box-shadow .15s}
 .btn:active{transform:translateY(1px);box-shadow:0 4px 12px rgba(123,90,166,.3)}
 .btn[disabled]{opacity:.6;cursor:default}
-.cta{margin:22px 0 6px;text-align:center}
+.cta{margin:16px 0 6px;text-align:center}
 .hint{font-size:14px;color:var(--soft);margin-top:10px;text-align:center}
 .prize{display:none;margin:26px 0 0;padding:26px 20px 28px;background:var(--card);border:1px solid var(--line);
   border-radius:28px;text-align:center;box-shadow:0 10px 30px rgba(63,42,85,.08)}
@@ -74,8 +74,8 @@ footer a{color:var(--soft)}
 
   <section class="hero">
     <div class="brand">Эфирный городок</div>
-    <h1>Крути Колесо удачи и забирай подарок</h1>
-    <p class="lead">Уютная игра про эфирные масла. Каждый день колесо дарит что-то маленькое и приятное: рецепт, ритуал или аромат дня.</p>
+    <h1>Крути Колесо удачи</h1>
+    <p class="lead">Уютная игра про эфирные масла. Первый подарок ждёт тебя уже сейчас.</p>
 
     <div class="wheel" id="wheel">
       <img src="assets/koleso.jpg" alt="Колесо удачи Эфирного городка" width="720" height="720">
