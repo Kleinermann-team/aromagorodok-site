@@ -59,6 +59,15 @@ p{margin:0}
 .sep{height:1px;background:var(--line);margin:24px 0}
 .keepers{width:100%;height:auto;border-radius:20px;display:block;margin:16px 0 0}
 .inside{padding:38px 0 10px}
+.kod{position:relative;margin:26px 0 0;padding:44px 20px 26px;border-radius:28px;text-align:center;
+  background:linear-gradient(160deg,#efe2f6 0%,#fbeee2 100%);border:1px solid #e2cfe9;
+  box-shadow:0 12px 34px rgba(123,90,166,.18)}
+.kod p{color:var(--soft);margin-top:10px}
+.orb{position:absolute;left:50%;top:-30px;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:30px;background:var(--card);
+  border:1px solid #e2cfe9;box-shadow:0 8px 20px rgba(123,90,166,.25);animation:float 3.2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+.btn.gold{background:linear-gradient(135deg,#c79a55,#a9783a);box-shadow:0 8px 22px rgba(169,120,58,.35)}
 .inside h2{text-align:center}
 .list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:12px}
 .list li{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px}
@@ -66,7 +75,7 @@ p{margin:0}
 .list span{color:var(--soft);font-size:16px}
 footer{padding:30px 0 40px;text-align:center;font-size:14px;color:var(--soft)}
 footer a{color:var(--soft)}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.prize.show{animation:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.prize.show,.orb{animation:none}}
 </style>
 </head>
 <body>
@@ -111,10 +120,16 @@ footer a{color:var(--soft)}
     <ul class="list">
       <li><b>Колесо удачи каждый день</b><span>Новый маленький подарок каждое утро.</span></li>
       <li><b>Свой домик и хранительница</b><span>Всё, что ты собираешь, остаётся с тобой.</span></li>
-      <li><b>Аромакод по дате рождения</b><span>Личная смесь масел, которую можно рассчитать за минуту.</span></li>
     </ul>
-    <div class="cta">
-      <a class="btn" id="take2" href="https://t.me/EfirnyGorodokBot?start=site_9721645" rel="noopener">Зайти в городок</a>
+
+    <div class="kod">
+      <div class="orb" aria-hidden="true">🔮</div>
+      <span class="tag">По дате рождения</span>
+      <h2>Твой аромакод 2027</h2>
+      <p>Личная смесь эфирных масел на год. Бот рассчитает её за минуту, нужна только дата рождения.</p>
+      <div class="cta">
+        <a class="btn gold" id="kod" href="https://t.me/EfirnyGorodokBot?start=kod_9721645" rel="noopener">Рассчитать аромакод</a>
+      </div>
     </div>
   </section>
 
@@ -140,7 +155,8 @@ footer a{color:var(--soft)}
   try { store && store.setItem("k", k); } catch (e) {}
 
   var link = "https://t.me/" + BOT + "?start=site_" + k;
-  ["take", "take2"].forEach(function (id) { document.getElementById(id).href = link; });
+  document.getElementById("take").href = link;
+  document.getElementById("kod").href = "https://t.me/" + BOT + "?start=kod_" + k;
   ["imp", "dsg"].forEach(function (id) {
     var a = document.getElementById(id);
     if (k !== DEFAULT) a.href += "?k=" + k;
