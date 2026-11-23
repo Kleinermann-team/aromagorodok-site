@@ -6,27 +6,36 @@
 <meta name="robots" content="noindex">
 <title>Datenschutzerklärung — Эфирный городок</title>
 <style>
-@font-face{font-family:"Lora";font-weight:600;font-display:swap;
-  src:url(fonts/lora-cyrillic-600-normal.woff2) format("woff2");unicode-range:U+0400-04FF,U+2116}
-@font-face{font-family:"Lora";font-weight:600;font-display:swap;
-  src:url(fonts/lora-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2014,U+00AB,U+00BB}
-:root{--bg:#f6f0f7;--card:#fffaf5;--ink:#3f2a55;--soft:#5f4b70;--line:#e3d6ea;--accent:#7b5aa6}
+@font-face{font-family:"Cormorant";font-weight:500;font-display:swap;
+  src:url(fonts/cormorant-garamond-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0400-04FF,U+2116}
+@font-face{font-family:"Cormorant";font-weight:500;font-display:swap;
+  src:url(fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2014,U+00AB,U+00BB,U+014D}
+:root{--ink:#f6f0fd;--soft:rgba(240,232,252,.84);--line:rgba(255,255,255,.22);--gold:#ecd0a0}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
-.wrap{max-width:640px;margin:0 auto;padding:26px 18px 50px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px 22px}
-h1,h2{font-family:"Lora",Georgia,serif;font-weight:600;line-height:1.25;margin:0}
-h1{font-size:30px;margin-bottom:6px}
-h2{font-size:20px;margin:26px 0 6px}
+html{background:#120d33}
+body{margin:0;background:#120d33;color:var(--ink);
+  font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-text-size-adjust:100%}
+.sky{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:0;pointer-events:none;
+  background:#120d33 url(assets/pole-noch-v.jpg) center/cover no-repeat}
+@media (orientation:landscape){.sky{background-image:url(assets/pole-noch-h.jpg)}}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:26px 18px 50px}
+.card{background:rgba(22,14,50,.62);border:1px solid var(--line);border-radius:26px;padding:24px 22px;
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);
+  box-shadow:0 18px 50px rgba(6,3,24,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+h1,h2{font-family:"Cormorant",Georgia,serif;font-weight:500;line-height:1.15;margin:0;letter-spacing:.01em}
+h1{font-size:clamp(25px,7.6vw,38px);margin-bottom:6px;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
+h2{font-size:24px;margin:26px 0 6px;color:var(--gold)}
 p,address{margin:8px 0;color:var(--soft);font-style:normal;overflow-wrap:anywhere}
 ul{margin:8px 0;padding-left:20px;color:var(--soft)}
-a{color:var(--accent)}
+a{color:#e3cdfb}
 .ru{font-size:15px;border-left:3px solid var(--line);padding-left:12px;margin:12px 0 0}
-.back{display:inline-block;margin-bottom:16px}
+.back{display:inline-block;margin-bottom:16px;text-shadow:0 1px 10px rgba(10,6,34,.9)}
 </style>
+<meta name="theme-color" content="#15103a">
 </head>
 <body>
+<div class="sky" aria-hidden="true"></div>
 <div class="wrap">
 <a class="back" href="index.html" id="back">← Эфирный городок</a>
 <div class="card">
