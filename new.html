@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Эфирный городок — крути Колесо удачи</title>
+<meta name="description" content="Уютная игра про эфирные масла. Крути Колесо удачи и забирай первый подарок: рецепт и свою хранительницу.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Эфирный городок">
+<meta property="og:description" content="Крути Колесо удачи и забирай первый подарок.">
+<meta property="og:image" content="assets/koleso.jpg">
+<meta name="theme-color" content="#15103a">
+<link rel="preload" as="image" href="assets/pole-noch-v.jpg" media="(orientation:portrait)">
+<link rel="preload" as="image" href="assets/pole-noch-h.jpg" media="(orientation:landscape)">
+<style>
+@font-face{font-family:"Cormorant";font-weight:500;font-display:swap;
+  src:url(fonts/cormorant-garamond-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0400-04FF,U+2116}
+@font-face{font-family:"Cormorant";font-weight:500;font-display:swap;
+  src:url(fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2014,U+00AB,U+00BB,U+014D}
+:root{--ink:#f6f0fd;--soft:rgba(240,232,252,.80);--line:rgba(255,255,255,.22);--gold:#ecd0a0;
+  --glass:rgba(24,16,52,.32);--x:50%;--y:46%;--r:50vmin}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:#120d33}
+body{margin:0;color:var(--ink);background:#120d33;
+  font:17px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+/* ночное поле и то же поле на рассвете: рассвет виден в пятне, которое идёт за пальцем */
+.sky{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:0;pointer-events:none;
+  background:#120d33 center/cover no-repeat}
+.night{background-image:url(assets/pole-noch-v.jpg)}
+.dawn{background-image:url(assets/pole-utro-v.jpg);
+  -webkit-mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),#000 0%,rgba(0,0,0,.9) 30%,rgba(0,0,0,.35) 68%,transparent 100%);
+  mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),#000 0%,rgba(0,0,0,.9) 30%,rgba(0,0,0,.35) 68%,transparent 100%)}
+@media (orientation:landscape){
+  .night{background-image:url(assets/pole-noch-h.jpg)}
+  .dawn{background-image:url(assets/pole-utro-h.jpg)}
+  :root{--r:32vmin}}
+.veil{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(14,9,40,.30) 0%,rgba(14,9,40,0) 34%,rgba(14,9,40,0) 70%,rgba(14,9,40,.30) 100%)}
+main,footer{position:relative;z-index:1}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+h1,h2{font-family:"Cormorant",Georgia,"Times New Roman",serif;font-weight:500;line-height:1.12;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:40px;text-shadow:0 2px 18px rgba(10,6,34,.75)}
+h2{font-size:31px}
+p{margin:0}
+.hero{padding:26px 0 8px;text-align:center}
+.brand{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;text-shadow:0 1px 10px rgba(10,6,34,.8)}
+.lead{color:var(--ink);opacity:.9;margin-top:8px;font-size:16px;line-height:1.4;text-shadow:0 1px 12px rgba(10,6,34,.85)}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:30px;
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);backdrop-filter:blur(18px) saturate(1.25);
+  box-shadow:0 18px 50px rgba(6,3,24,.42),inset 0 1px 0 rgba(255,255,255,.22)}
+.stage{margin:16px auto 0;padding:14px 14px 18px;width:min(100%,470px)}
+.wheel{position:relative;margin:0 auto;width:min(100%,440px,calc(100vh - 330px));width:min(100%,440px,calc(100svh - 330px));min-width:220px;aspect-ratio:1/1;
+  border-radius:22px;overflow:hidden;background:#2a1d55;box-shadow:0 0 0 1px rgba(255,255,255,.28),0 10px 30px rgba(6,3,24,.5)}
+.wheel img,.wheel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.wheel video{opacity:0;transition:opacity .25s}
+.wheel.spinning video,.wheel.done video{opacity:1}
+.wheel img{animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+.wheel::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.38) 50%,transparent 60%);
+  transform:translateX(-120%);animation:shine 5s ease-in-out 1.2s infinite}
+@keyframes shine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.wheel.spinning::after,.wheel.done::after{display:none}
+.wheel.spinning img,.wheel.done img{animation:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px;padding:0 32px;
+  border:0;border-radius:999px;background:linear-gradient(180deg,#fbf4ff,#dcc6f6);color:#2b1850;
+  font:600 18px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;text-decoration:none;cursor:pointer;
+  box-shadow:0 10px 26px rgba(6,3,24,.45);transition:transform .15s,box-shadow .15s}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.6;cursor:default}
+#go:not([disabled]){animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 10px 26px rgba(6,3,24,.45),0 0 0 0 rgba(226,204,250,.55)}
+  55%{box-shadow:0 10px 26px rgba(6,3,24,.45),0 0 0 14px rgba(226,204,250,0)}}
+.btn.gold{background:linear-gradient(180deg,#f6dfb4,#d8ac68);color:#3a2408;animation:glowgold 3s ease-in-out .8s infinite}
+@keyframes glowgold{0%,100%{box-shadow:0 10px 26px rgba(6,3,24,.45),0 0 0 0 rgba(236,208,160,.5)}
+  55%{box-shadow:0 10px 26px rgba(6,3,24,.45),0 0 0 14px rgba(236,208,160,0)}}
+.cta{margin:16px 0 4px;text-align:center}
+.hint{font-size:14px;color:var(--soft);margin-top:10px;text-align:center}
+.touch{font-size:13px;color:var(--soft);text-align:center;margin-top:18px;letter-spacing:.04em;text-shadow:0 1px 10px rgba(10,6,34,.9)}
+.prize{display:none;margin:26px 0 0;padding:28px 20px 28px;text-align:center}
+.prize.show{display:block;animation:rise .6s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.prize p,.kod p{color:var(--soft);margin-top:10px}
+.sep{height:1px;background:var(--line);margin:24px 0}
+.keepers{width:100%;height:auto;border-radius:18px;display:block;margin:16px 0 0;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+.inside{padding:44px 0 10px}
+.inside>h2{text-align:center;text-shadow:0 2px 18px rgba(10,6,34,.8)}
+.list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:12px}
+.list li{padding:16px 18px;border-radius:22px}
+.list b{display:block;font-weight:600;color:var(--ink)}
+.list span{color:var(--soft);font-size:16px}
+.kod{position:relative;margin:46px 0 0;padding:46px 20px 26px;text-align:center}
+.orb{position:absolute;left:50%;top:-30px;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:30px;background:rgba(40,28,82,.75);
+  border:1px solid var(--line);box-shadow:0 8px 24px rgba(6,3,24,.5);animation:float 3.2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+footer{padding:34px 0 44px;text-align:center;font-size:14px;color:var(--soft);text-shadow:0 1px 10px rgba(10,6,34,.9)}
+footer a{color:var(--soft)}
+@media (min-width:700px){h1{font-size:48px}h2{font-size:34px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+  .prize.show,.orb,.wheel img,.wheel::after,#go,.btn.gold{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="sky night" aria-hidden="true"></div>
+<div class="sky dawn" id="dawn" aria-hidden="true"></div>
+<div class="veil" aria-hidden="true"></div>
+<main class="wrap">
+
+
+  <section class="hero">
+    <div class="brand">Эфирный городок</div>
+    <h1>Крути Колесо удачи</h1>
+    <p class="lead">Уютная игра про эфирные масла. Первый подарок ждёт тебя уже сейчас.</p>
+
+    <div class="stage glass">
+    <div class="wheel" id="wheel">
+      <img src="assets/koleso.jpg" alt="Колесо удачи Эфирного городка" width="720" height="720">
+      <video id="spin" src="assets/koleso.mp4" poster="assets/koleso.jpg" preload="auto" muted playsinline></video>
+    </div>
+
+    <div class="cta">
+      <button class="btn" id="go" type="button">Крутить колесо</button>
+    </div>
+    <p class="hint" id="hint">Одно нажатие, и колесо выберет твой подарок</p>
+    </div>
+    <p class="touch">Проведи по полю, и в нём наступит утро</p>
+  </section>
+
+  <section class="prize glass" id="prize" aria-live="polite">
+    <span class="tag">Тебе выпало</span>
+    <h2>Рецепт из «Ароматной кухни»</h2>
+    <p>Простое блюдо с каплей эфирного масла. Карточка с рецептом ждёт тебя в боте.</p>
+
+    <div class="sep"></div>
+
+    <span class="tag">И ещё подарок</span>
+    <h2>Твоя хранительница</h2>
+    <p>Это твой персонаж в городке. Выберешь, какой она будет, а потом сможешь собирать для неё образы.</p>
+    <img class="keepers" src="assets/hranitelnitsy.jpg" alt="Три хранительницы на выбор" loading="lazy" width="1500" height="625">
+
+    <div class="cta">
+      <a class="btn" id="take" href="https://t.me/EfirnyGorodokBot?start=site_9721645" rel="noopener">Забрать в Телеграме</a>
+    </div>
+    <p class="hint">Откроется бот «Эфирный городок». Подарки придут сразу.</p>
+  </section>
+
+  <section class="inside">
+    <h2>Что внутри городка</h2>
+    <ul class="list">
+      <li class="glass"><b>Колесо удачи каждый день</b><span>Новый маленький подарок каждое утро.</span></li>
+      <li class="glass"><b>Свой домик и хранительница</b><span>Всё, что ты собираешь, остаётся с тобой.</span></li>
+    </ul>
+
+    <div class="kod glass">
+      <div class="orb" aria-hidden="true">🔮</div>
+      <span class="tag">По дате рождения</span>
+      <h2>Твой аромакод 2027</h2>
+      <p>Личная смесь эфирных масел на год. Бот рассчитает её за минуту, нужна только дата рождения.</p>
+      <div class="cta">
+        <a class="btn gold" id="kod" href="https://t.me/EfirnyGorodokBot?start=kod_9721645" rel="noopener">Рассчитать аромакод</a>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<footer class="wrap">
+  <p>Авторский проект независимого консультанта dōTERRA. Не является официальным сайтом компании.</p>
+  <p style="margin-top:8px"><a href="impressum.html" id="imp">Impressum</a> · <a href="datenschutz.html" id="dsg">Datenschutz</a></p>
+</footer>
+
+<script>
+(function () {
+  var BOT = "EfirnyGorodokBot", DEFAULT = "9721645";
+  // Номер куратора: из адреса (?k=123456), иначе из памяти вкладки, иначе руководитель.
+  var k = (new URLSearchParams(location.search).get("k") || "").trim();
+  var store = null;
+  try { store = window.sessionStorage; } catch (e) {}
+  if (!/^\d{4,12}$/.test(k)) {
+    k = "";
+    try { k = (store && store.getItem("k")) || ""; } catch (e) {}
+  }
+  if (!/^\d{4,12}$/.test(k)) k = DEFAULT;
+  try { store && store.setItem("k", k); } catch (e) {}
+
+  // Метка источника (?s=insta): откуда пришёл человек. Латиница, цифры, дефис.
+  var s = (new URLSearchParams(location.search).get("s") || "").trim().toLowerCase();
+  if (!/^[a-z0-9-]{1,16}$/.test(s)) s = "";
+  var tail = k + (s ? "_" + s : "");
+
+  var link = "https://t.me/" + BOT + "?start=site_" + tail;
+  document.getElementById("take").href = link;
+  document.getElementById("kod").href = "https://t.me/" + BOT + "?start=kod_" + tail;
+  ["imp", "dsg"].forEach(function (id) {
+    var a = document.getElementById(id);
+    if (k !== DEFAULT) a.href += "?k=" + k;
+  });
+
+  // Анонимный счётчик шагов: только число. Ничего не пишем и не читаем на устройстве.
+  var COUNTER = "https://client-bot-production-2caa56ba.up.railway.app/h";
+  var sent = {};
+  function hit(e, once) {
+    try {
+      if (once) {
+        if (sent[e]) return;
+        sent[e] = 1;
+      }
+      new Image().src = COUNTER + "?e=" + e + "&k=" + k + (s ? "&s=" + s : "") + "&t=" + Date.now();
+    } catch (err) {}
+  }
+  hit("v", true);
+  document.getElementById("take").addEventListener("click", function () { hit("t", true); });
+  document.getElementById("kod").addEventListener("click", function () { hit("k", true); });
+
+  var wheel = document.getElementById("wheel"), video = document.getElementById("spin"),
+      go = document.getElementById("go"), hint = document.getElementById("hint"),
+      prize = document.getElementById("prize"), shown = false;
+
+  function reveal() {
+    if (shown) return;
+    shown = true;
+    wheel.classList.remove("spinning");
+    wheel.classList.add("done");
+    go.textContent = "Крутить ещё раз";
+    go.disabled = false;
+    hint.textContent = "Подарок за первое вращение уже твой";
+    prize.classList.add("show");
+    setTimeout(function () {
+      prize.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 250);
+  }
+
+  go.addEventListener("click", function () {
+    hit("s", true);
+    go.disabled = true;
+    hint.textContent = "Колесо крутится…";
+    wheel.classList.remove("done");
+    wheel.classList.add("spinning");
+    shown = false;
+    var guard = setTimeout(reveal, 6500);          // если видео не запустилось
+    video.onended = function () { clearTimeout(guard); reveal(); };
+    try {
+      video.currentTime = 0;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { clearTimeout(guard); setTimeout(reveal, 600); });
+    } catch (e) { clearTimeout(guard); reveal(); }
+  });
+})();
+</script>
+<script>
+// Пятно рассвета: само медленно плывёт по полю, а за пальцем или мышкой идёт следом.
+(function () {
+  var root = document.documentElement;
+  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var x = .5, y = .46, tx = x, ty = y, last = 0, t0 = performance.now();
+  function set() {
+    root.style.setProperty("--x", (x * 100).toFixed(2) + "%");
+    root.style.setProperty("--y", (y * 100).toFixed(2) + "%");
+  }
+  function point(e) {
+    var p = e.touches ? e.touches[0] : e;
+    if (!p) return;
+    tx = p.clientX / window.innerWidth;
+    ty = p.clientY / window.innerHeight;
+    last = performance.now();
+  }
+  window.addEventListener("mousemove", point, { passive: true });
+  window.addEventListener("touchstart", point, { passive: true });
+  window.addEventListener("touchmove", point, { passive: true });
+  if (still) { x = .78; y = .5; set(); return; }
+  function frame(now) {
+    if (now - last > 2600) {                    // никто не ведёт — плывём сами
+      var t = (now - t0) / 1000;
+      tx = .5 + .34 * Math.sin(t * .23);
+      ty = .47 + .2 * Math.sin(t * .31 + 1.3);
+    }
+    var k = now - last > 2600 ? .02 : .16;
+    x += (tx - x) * k; y += (ty - y) * k;
+    set();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
