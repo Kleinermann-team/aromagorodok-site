@@ -186,13 +186,34 @@ footer a{color:var(--soft)}
   if (!/^\d{4,12}$/.test(k)) k = DEFAULT;
   try { store && store.setItem("k", k); } catch (e) {}
 
-  var link = "https://t.me/" + BOT + "?start=site_" + k;
+  // Метка источника (?s=insta): откуда пришёл человек. Латиница, цифры, дефис.
+  var s = (new URLSearchParams(location.search).get("s") || "").trim().toLowerCase();
+  if (!/^[a-z0-9-]{1,16}$/.test(s)) s = "";
+  var tail = k + (s ? "_" + s : "");
+
+  var link = "https://t.me/" + BOT + "?start=site_" + tail;
   document.getElementById("take").href = link;
-  document.getElementById("kod").href = "https://t.me/" + BOT + "?start=kod_" + k;
+  document.getElementById("kod").href = "https://t.me/" + BOT + "?start=kod_" + tail;
   ["imp", "dsg"].forEach(function (id) {
     var a = document.getElementById(id);
     if (k !== DEFAULT) a.href += "?k=" + k;
   });
+
+  // Анонимный счётчик шагов: только число. Ничего не пишем и не читаем на устройстве.
+  var COUNTER = "https://client-bot-production-2caa56ba.up.railway.app/h";
+  var sent = {};
+  function hit(e, once) {
+    try {
+      if (once) {
+        if (sent[e]) return;
+        sent[e] = 1;
+      }
+      new Image().src = COUNTER + "?e=" + e + "&k=" + k + (s ? "&s=" + s : "") + "&t=" + Date.now();
+    } catch (err) {}
+  }
+  hit("v", true);
+  document.getElementById("take").addEventListener("click", function () { hit("t", true); });
+  document.getElementById("kod").addEventListener("click", function () { hit("k", true); });
 
   var wheel = document.getElementById("wheel"), video = document.getElementById("spin"),
       go = document.getElementById("go"), hint = document.getElementById("hint"),
@@ -213,6 +234,7 @@ footer a{color:var(--soft)}
   }
 
   go.addEventListener("click", function () {
+    hit("s", true);
     go.disabled = true;
     hint.textContent = "Колесо крутится…";
     wheel.classList.remove("done");
