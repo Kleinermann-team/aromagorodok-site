@@ -42,6 +42,28 @@ p{margin:0}
 .wheel img,.wheel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .wheel video{opacity:0;transition:opacity .25s}
 .wheel.spinning video,.wheel.done video{opacity:1}
+/* лёгкое «дыхание» колеса и блик, пока его не крутили */
+.wheel img{animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+.wheel::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.38) 50%,transparent 60%);
+  transform:translateX(-120%);animation:shine 5s ease-in-out 1.2s infinite}
+@keyframes shine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.wheel.spinning::after,.wheel.done::after{display:none}
+.wheel.spinning img,.wheel.done img{animation:none}
+/* мягкое свечение главной кнопки */
+#go:not([disabled]){animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 8px 22px rgba(123,90,166,.35),0 0 0 0 rgba(123,90,166,.38)}
+  55%{box-shadow:0 8px 22px rgba(123,90,166,.35),0 0 0 14px rgba(123,90,166,0)}}
+.btn.gold{animation:glowgold 3s ease-in-out .8s infinite}
+@keyframes glowgold{0%,100%{box-shadow:0 8px 22px rgba(169,120,58,.35),0 0 0 0 rgba(185,138,74,.4)}
+  55%{box-shadow:0 8px 22px rgba(169,120,58,.35),0 0 0 14px rgba(185,138,74,0)}}
+/* лепестки лаванды, которые медленно летят сверху */
+.petals{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.petals i{position:absolute;top:-24px;width:9px;height:14px;border-radius:60% 40% 60% 40%/70% 60% 40% 30%;
+  background:linear-gradient(160deg,#c9a9e6,#9a78c9);opacity:.55;animation:fall linear infinite}
+@keyframes fall{0%{transform:translate3d(0,-5vh,0) rotate(0)}
+  100%{transform:translate3d(var(--dx),108vh,0) rotate(var(--rot))}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px;padding:0 30px;
   border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);
   font:600 18px/1 inherit;font-family:inherit;text-decoration:none;cursor:pointer;
@@ -75,10 +97,20 @@ p{margin:0}
 .list span{color:var(--soft);font-size:16px}
 footer{padding:30px 0 40px;text-align:center;font-size:14px;color:var(--soft)}
 footer a{color:var(--soft)}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.prize.show,.orb{animation:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+  .prize.show,.orb,.wheel img,.wheel::after,#go,.btn.gold{animation:none!important}.petals{display:none}}
 </style>
 </head>
 <body>
+<div class="petals" aria-hidden="true">
+  <i style="left:8%;--dx:40px;--rot:320deg;animation-duration:15s;animation-delay:-2s"></i>
+  <i style="left:24%;--dx:-30px;--rot:-260deg;animation-duration:19s;animation-delay:-9s;transform:scale(.8)"></i>
+  <i style="left:41%;--dx:55px;--rot:400deg;animation-duration:17s;animation-delay:-5s"></i>
+  <i style="left:58%;--dx:-45px;--rot:-340deg;animation-duration:21s;animation-delay:-13s"></i>
+  <i style="left:74%;--dx:30px;--rot:280deg;animation-duration:16s;animation-delay:-7s"></i>
+  <i style="left:90%;--dx:-60px;--rot:-380deg;animation-duration:23s;animation-delay:-16s"></i>
+  <i style="left:33%;--dx:25px;--rot:300deg;animation-duration:25s;animation-delay:-20s"></i>
+</div>
 <main class="wrap">
 
   <section class="hero">
