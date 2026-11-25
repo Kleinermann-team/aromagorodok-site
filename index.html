@@ -206,8 +206,23 @@ footer a{color:var(--soft)}
   var tail = k + (s ? "_" + s : "");
 
   var link = "https://t.me/" + BOT + "?start=site_" + tail;
+  var kodLink = "https://t.me/" + BOT + "?start=kod_" + tail;
+  // Именованная ссылка из кабинета (?i=код, для рекламы): у неё свой куратор и своя
+  // «регистрация под», поэтому она важнее номера. ?w= — отдельная ссылка для колеса.
+  var q = new URLSearchParams(location.search), CODE = /^[a-z0-9]{4,12}$/;
+  var ci = (q.get("i") || "").trim().toLowerCase(), cw = (q.get("w") || "").trim().toLowerCase();
+  try {
+    if (CODE.test(ci)) store && store.setItem("i", ci); else ci = (store && store.getItem("i")) || "";
+    if (CODE.test(cw)) store && store.setItem("w", cw); else cw = (store && store.getItem("w")) || "";
+  } catch (e) {}
+  if (!CODE.test(ci)) ci = "";
+  if (!CODE.test(cw)) cw = "";
+  if (ci || cw) {
+    kodLink = "https://t.me/" + BOT + "?start=i_" + (ci || cw);
+    link = "https://t.me/" + BOT + "?start=i_" + (cw || ci);
+  }
   document.getElementById("take").href = link;
-  document.getElementById("kod").href = "https://t.me/" + BOT + "?start=kod_" + tail;
+  document.getElementById("kod").href = kodLink;
   // Страница регистрации в dōTERRA (требование compliance, 25.11.2026): своя у каждого
   // консультанта, по номеру её не построить, поэтому показываем только у руководителя.
   if (k === DEFAULT) document.getElementById("reg").hidden = false;
