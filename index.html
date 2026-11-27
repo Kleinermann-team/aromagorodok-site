@@ -225,7 +225,23 @@ footer a{color:var(--soft)}
   document.getElementById("kod").href = kodLink;
   // Страница регистрации в dōTERRA (требование compliance, 25.11.2026): своя у каждого
   // консультанта, по номеру её не построить, поэтому показываем только у руководителя.
-  if (k === DEFAULT) document.getElementById("reg").hidden = false;
+  if (k === DEFAULT && !ci && !cw) document.getElementById("reg").hidden = false;
+  else {
+    // У остальных консультантов адрес страницы знает бот (кабинет → «Мой сайт dōTERRA»).
+    // Спрашиваем только имя страницы; не ответил или не указано — строки просто нет.
+    try {
+      fetch("https://client-bot-production-2caa56ba.up.railway.app/m?" + (ci || cw ? "i=" + (cw || ci) : "k=" + k))
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var m = String((d && d.m) || "");
+          if (!/^[a-z0-9][a-z0-9_-]{2,39}$/.test(m)) return;
+          var box = document.getElementById("reg"), a = box.querySelector("a");
+          a.href = "https://office.doterra.com/" + m;
+          a.textContent = "office.doterra.com/" + m;
+          box.hidden = false;
+        }).catch(function () {});
+    } catch (e) {}
+  }
   ["imp", "dsg"].forEach(function (id) {
     var a = document.getElementById(id);
     if (k !== DEFAULT) a.href += "?k=" + k;
